@@ -133,10 +133,12 @@ end)
 
 -- Event when player exits a marker zone
 AddEventHandler('hw_whitewidow:playerExitedMarker', function(zone)
-  if zone == 'harvest' then
-      isHarvesting = false
-  end
-  CurrentAction = nil
+    if zone == 'harvest' then
+        isHarvesting = false
+    elseif zone == 'crafting' then
+        isCrafting = false
+    end
+    CurrentAction = nil
 end)
 
 -- Key press event handling for the current action
