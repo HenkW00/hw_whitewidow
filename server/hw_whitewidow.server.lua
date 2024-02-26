@@ -1,3 +1,6 @@
+-------------------------
+----------SERVER---------
+-------------------------
 ESX = exports["es_extended"]:getSharedObject()
 
 -- ESX = nil
@@ -23,7 +26,6 @@ function SendDiscordLog(title, message, color)
   PerformHttpRequest(discordWebhook, function(err, text, headers) end, 'POST', json.encode({embeds = embeds}), {['Content-Type'] = 'application/json'})
 end
 
--- Correctly handle item purchases
 RegisterServerEvent('hw_whitewidow:buyItem')
 AddEventHandler('hw_whitewidow:buyItem', function(itemName, price)
     local _source = source
@@ -46,7 +48,6 @@ AddEventHandler('hw_whitewidow:buyItem', function(itemName, price)
     end
 end)
 
--- Handling the harvesting of cannabis
 RegisterServerEvent('hw_whitewidow:harvestCannabis')
 AddEventHandler('hw_whitewidow:harvestCannabis', function()
     local _source = source
@@ -64,7 +65,6 @@ AddEventHandler('hw_whitewidow:harvestCannabis', function()
     SendDiscordLog("Harvesting Action", xPlayer.getName() .. " harvested cannabis.", 8311585) 
 end)
 
--- Crafting a joint directly without using ESX.TriggerServerCallback
 RegisterServerEvent('hw_whitewidow:craftJoint')
 AddEventHandler('hw_whitewidow:craftJoint', function()
     local _source = source
@@ -91,8 +91,6 @@ AddEventHandler('hw_whitewidow:craftJoint', function()
     end
 end)
 
-
--- Use of rolling_paper item
 ESX.RegisterUsableItem('rollingpaper', function(source)
   local xPlayer = ESX.GetPlayerFromId(source)
   if xPlayer then

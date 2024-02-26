@@ -1,3 +1,6 @@
+-------------------------
+----------CLIENT---------
+-------------------------
 ESX = exports["es_extended"]:getSharedObject()
 
 -- ESX = nil
@@ -9,28 +12,23 @@ ESX = exports["es_extended"]:getSharedObject()
 --     end
 -- end)
 
--- Global flag to track harvesting status
 local isHarvesting = false
 
--- Drawing markers for shops, crafting, and harvest zones
 Citizen.CreateThread(function()
   while true do
       Wait(0)
       local playerCoords = GetEntityCoords(PlayerPedId())
 
-      -- Shop markers
       for _, shop in pairs(Config.Shops) do
           if #(playerCoords - vector3(shop.x, shop.y, shop.z)) < Config.DrawDistance then
               DrawMarker(Config.MarkerType, shop.x, shop.y, shop.z, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, nil, nil, false)
           end
       end
 
-      -- Crafting zone marker
       if #(playerCoords - Config.CraftingZone.coords) < Config.DrawDistance then
           DrawMarker(Config.MarkerType, Config.CraftingZone.coords.x, Config.CraftingZone.coords.y, Config.CraftingZone.coords.z, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, nil, nil, false)
       end
 
-      -- Harvest zone markers
       for _, zone in pairs(Config.HarvestZones) do
           if #(playerCoords - zone.coords) < Config.DrawDistance then
               DrawMarker(Config.MarkerType, zone.coords.x, zone.coords.y, zone.coords.z, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, nil, nil, false)
@@ -39,7 +37,6 @@ Citizen.CreateThread(function()
   end
 end)
 
--- Handling player's action when they are near a marker
 Citizen.CreateThread(function()
   while true do
       Wait(0)
@@ -92,7 +89,6 @@ AddEventHandler('hw_whitewidow:playerEnteredMarker', function(zone)
     
             ESX.UI.Menu.CloseAll()
     
-            -- Open the shop menu
             ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_menu', {
                 title    = 'Shop',
                 align    = 'top-left',
@@ -115,7 +111,7 @@ AddEventHandler('hw_whitewidow:playerEnteredMarker', function(zone)
             Citizen.CreateThread(function()
                 while isCrafting do
                     TriggerServerEvent('hw_whitewidow:craftJoint')
-                    Citizen.Wait(5000) -- Adjust the interval as needed
+                    Citizen.Wait(8000)
                 end
             end)
             ESX.ShowNotification("Crafting...")
@@ -125,13 +121,12 @@ AddEventHandler('hw_whitewidow:playerEnteredMarker', function(zone)
         Citizen.CreateThread(function()
             while isHarvesting do
                 TriggerServerEvent('hw_whitewidow:harvestCannabis')
-                Citizen.Wait(5000) 
+                Citizen.Wait(10000) 
             end
         end)
     end
 end)
 
--- Event when player exits a marker zone
 AddEventHandler('hw_whitewidow:playerExitedMarker', function(zone)
     if zone == 'harvest' then
         isHarvesting = false
@@ -141,7 +136,7 @@ AddEventHandler('hw_whitewidow:playerExitedMarker', function(zone)
     CurrentAction = nil
 end)
 
--- Key press event handling for the current action
+
 Citizen.CreateThread(function()
   while true do
       Wait(0)

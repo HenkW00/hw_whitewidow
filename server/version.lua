@@ -1,3 +1,6 @@
+-------------------------
+----------VERSION--------
+-------------------------
 local curVersion = GetResourceMetadata(GetCurrentResourceName(), "version")
 local resourceName = "hw_whitewidow"
 
