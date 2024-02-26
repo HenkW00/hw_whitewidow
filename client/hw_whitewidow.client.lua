@@ -77,53 +77,58 @@ Citizen.CreateThread(function()
   end
 end)
 
--- Event when player enters a marker zone
 AddEventHandler('hw_whitewidow:playerEnteredMarker', function(zone)
-  if zone == 'shop' then
-      CurrentAction = function()
-          local elements = {}
-          
-          for i=1, #Config.ShopInventory, 1 do
-              table.insert(elements, {
-                  label = Config.ShopInventory[i].label .. ' - $' .. Config.ShopInventory[i].price,
-                  value = Config.ShopInventory[i].item,
-                  price = Config.ShopInventory[i].price
-              })
-          end
-
-          ESX.UI.Menu.CloseAll()
-
-          -- Open the shop menu
-          ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_menu', {
-              title    = 'Shop',
-              align    = 'top-left',
-              elements = elements
-          }, function(data, menu)
-              local item = data.current.value
-              local price = data.current.price
-
-              ESX.ShowNotification('Buying ' .. data.current.label)
-              TriggerServerEvent('hw_whitewidow:buyItem', item, price)
-
-          end, function(data, menu)
-              menu.close()
-              CurrentAction = nil
-          end)
-      end
-  elseif zone == 'crafting' then
-      CurrentAction = function()
-          TriggerServerEvent('hw_whitewidow:craftJoint')
-          ESX.ShowNotification("Crafting...")
-      end
-  elseif zone == 'harvest' then
-      isHarvesting = true
-      Citizen.CreateThread(function()
-          while isHarvesting do
-              TriggerServerEvent('hw_whitewidow:harvestCannabis')
-              Citizen.Wait(5000) 
-          end
-      end)
-  end
+    if zone == 'shop' then
+        CurrentAction = function()
+            local elements = {}
+            
+            for i=1, #Config.ShopInventory, 1 do
+                table.insert(elements, {
+                    label = Config.ShopInventory[i].label .. ' - $' .. Config.ShopInventory[i].price,
+                    value = Config.ShopInventory[i].item,
+                    price = Config.ShopInventory[i].price
+                })
+            end
+    
+            ESX.UI.Menu.CloseAll()
+    
+            -- Open the shop menu
+            ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_menu', {
+                title    = 'Shop',
+                align    = 'top-left',
+                elements = elements
+            }, function(data, menu)
+                local item = data.current.value
+                local price = data.current.price
+    
+                ESX.ShowNotification('Buying ' .. data.current.label)
+                TriggerServerEvent('hw_whitewidow:buyItem', item, price)
+    
+            end, function(data, menu)
+                menu.close()
+                CurrentAction = nil
+            end)
+        end
+    elseif zone == 'crafting' then
+        CurrentAction = function()
+            isCrafting = true
+            Citizen.CreateThread(function()
+                while isCrafting do
+                    TriggerServerEvent('hw_whitewidow:craftJoint')
+                    Citizen.Wait(5000) -- Adjust the interval as needed
+                end
+            end)
+            ESX.ShowNotification("Crafting...")
+        end
+    elseif zone == 'harvest' then
+        isHarvesting = true
+        Citizen.CreateThread(function()
+            while isHarvesting do
+                TriggerServerEvent('hw_whitewidow:harvestCannabis')
+                Citizen.Wait(5000) 
+            end
+        end)
+    end
 end)
 
 -- Event when player exits a marker zone
