@@ -217,8 +217,19 @@ function Draw3DText(x, y, z, textLines)
     end
 end
 
+function CreateBlip(coords, text, sprite, color)
+    local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+    SetBlipSprite(blip, sprite)
+    SetBlipDisplay(blip, 4)
+    SetBlipScale(blip, 1.0)
+    SetBlipColour(blip, color)
+    SetBlipAsShortRange(blip, true)
 
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(text)
+    EndTextCommandSetBlipName(blip)
+end
 
-
-
-
+Citizen.CreateThread(function()
+    CreateBlip(Config.WeedShopBlip.coords, Config.WeedShopBlip.label, Config.WeedShopBlip.sprite, Config.WeedShopBlip.color)
+end)

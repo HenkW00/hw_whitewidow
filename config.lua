@@ -9,11 +9,11 @@ Config.MarkerType = 1
 Config.BlipSprite = 140
 Config.BlipColour = 24
 Config.ZDiff = 0.5
-Config.Locale = 'en'
 
 -------------------------
 ----------UTILS----------
 -------------------------
+Config.Locale = 'en'
 Config.Debug = true
 Config.DiscordWebhook = "https://discord.com/api/webhooks/1211691807306686564/Ydm1Ky0YKxEn2db9HVY0WDtPev06eoA9LDx-I-YiMY8qcB1t2XY3VXVq3Z1ueoFXgC-H"
 
@@ -28,6 +28,11 @@ Config.WeedShopBlip = {
     scale = 0.8,
     label = "White Widow"
 }
+
+-------------------------
+----------JOB------------
+-------------------------
+Config.Job = 'whitewidow'
 
 -------------------------
 ----------TEXT-----------
