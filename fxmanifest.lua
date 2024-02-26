@@ -3,7 +3,7 @@ fx_version 'cerulean'
 games {'gta5'}
 lua54 'yes'
 
-version '1.0.0'
+version '1.1.0'
 author 'HenkW'
 description 'White Widow job for ESX'
 
