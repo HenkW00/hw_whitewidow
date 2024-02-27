@@ -27,7 +27,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
         local playerCoords = GetEntityCoords(PlayerPedId())
 
-        -- Draw markers for shops, crafting zone, and harvest zones
         for _, shop in pairs(Config.Shops) do
             if #(playerCoords - vector3(shop.x, shop.y, shop.z)) < Config.DrawDistance then
                 DrawMarker(Config.MarkerType, shop.x, shop.y, shop.z, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, nil, nil, false)
@@ -44,7 +43,6 @@ Citizen.CreateThread(function()
             end
         end
 
-        -- Check if the player is near the dealer
         local distanceToDealer = #(playerCoords - Config.DealerLocation)
         if distanceToDealer < Config.MarkerSize.x then
             DrawMarker(Config.MarkerType, Config.DealerLocation.x, Config.DealerLocation.y, Config.DealerLocation.z, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, nil, nil, false)
@@ -61,7 +59,6 @@ Citizen.CreateThread(function()
         local playerCoords = GetEntityCoords(PlayerPedId())
         local isInMarker, currentZone = false, nil
 
-        -- Check if the player is in any marker zone
         for _, shop in pairs(Config.Shops) do
             if #(playerCoords - vector3(shop.x, shop.y, shop.z)) < Config.MarkerSize.x then
                 isInMarker, currentZone = true, 'shop'
@@ -80,7 +77,6 @@ Citizen.CreateThread(function()
             end
         end
 
-        -- Trigger events when player enters or exits marker zones
         if isInMarker and not HasAlreadyEnteredMarker then
             HasAlreadyEnteredMarker, LastZone = true, currentZone
             TriggerEvent('hw_whitewidow:playerEnteredMarker', currentZone)
@@ -92,7 +88,6 @@ Citizen.CreateThread(function()
             LastZone = nil
         end
 
-        -- Show interaction prompt when player is near dealer
         if hasDealerInRange and not isHarvesting then
             ESX.ShowHelpNotification("Press ~INPUT_CONTEXT~ to sell joints to the dealer.")
             if IsControlJustReleased(0, 38) then
@@ -100,7 +95,6 @@ Citizen.CreateThread(function()
             end
         end
 
-        -- Show interaction prompt for other marker zones
         if CurrentAction then
             ESX.ShowHelpNotification("Press ~INPUT_CONTEXT~ to interact.")
             if IsControlJustReleased(0, 38) then

@@ -30,7 +30,6 @@ AddEventHandler('hw_whitewidow:buyItem', function(itemName, price)
         return
     end
 
-    -- Check if the player has the required job
     if xPlayer.job.name == Config.Job then
         if xPlayer.getMoney() >= price then
             xPlayer.removeMoney(price)
@@ -57,7 +56,6 @@ AddEventHandler('hw_whitewidow:harvestCannabis', function()
         return
     end
 
-    -- Check if the player has the required job
     if xPlayer.job.name == Config.Job then
         xPlayer.addInventoryItem('cannabis', 2) 
         TriggerClientEvent('esx:showNotification', _source, 'Cannabis harvested.')
@@ -79,7 +77,6 @@ AddEventHandler('hw_whitewidow:craftJoint', function()
         return
     end
 
-    -- Check if the player has the required job
     if xPlayer.job.name == Config.Job then
         local cannabisItem = xPlayer.getInventoryItem('cannabis')
         local paperItem = xPlayer.getInventoryItem('rollingpaper') 
@@ -116,7 +113,6 @@ ESX.RegisterServerCallback('hw_whitewidow:sellToDealer', function(source, cb)
     end
 end)
 
--- Function to handle selling joints to the dealer
 function SellJointsToDealer(_source)
     local xPlayer = ESX.GetPlayerFromId(_source)
     if not xPlayer then
@@ -124,7 +120,6 @@ function SellJointsToDealer(_source)
         return
     end
 
-    -- Check if the player has the required job
     if xPlayer.job.name == Config.Job then
         local jointCount = xPlayer.getInventoryItem('joint').count
         if jointCount > 0 then
@@ -143,7 +138,3 @@ function SellJointsToDealer(_source)
         TriggerClientEvent('esx:showNotification', _source, "You don't have the required job to sell joints to the dealer.")
     end
 end
-
-
-
-
