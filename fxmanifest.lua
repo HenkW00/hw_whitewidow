@@ -13,6 +13,8 @@ server_scripts {
     '@mysql-async/lib/MySQL.lua',
     '@es_extended/locale.lua',
     'server/hw_whitewidow.server.lua',
+    'locales/fr.lua',
+    'locales/en.lua',
     'server/version.lua',
     'config.lua'
 }
@@ -20,6 +22,8 @@ server_scripts {
 client_scripts {
     '@es_extended/locale.lua',
     'client/hw_whitewidow.client.lua',
+    'locales/fr.lua',
+    'locales/en.lua',
     'config.lua'
 }
 
